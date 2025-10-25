@@ -1,6 +1,7 @@
 # Factory Pattern
 
 Provides a way to create objects without specifying the exact class.
+To implement it, make all the products follow the same interface.
 
 ***
 
@@ -26,7 +27,7 @@ New types can be added without altering client code.
 ## Disadvantages
 
 ### Increased Complexity
-For a simple system, this increases unnecessary complexity.
+The code may become more complicated since a lot of new subclasses need to be introduced.
 
 ### Performance Overhead
 Adds an extra layer of object creation, which could add minor performance cost.
