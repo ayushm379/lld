@@ -30,7 +30,7 @@ It helps when lots of fields are optional.
 ***
 
 ## When to not use it
-1. Avoid it in systems which are performance-critical, as there is an overhead of creating builder pattern.
+1. Avoid it in systems which are performance-critical, as there is an overhead of creating the builder pattern.
 2. Simple object is there with few parameters or small projects are there.
 
 ***
