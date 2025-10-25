@@ -8,6 +8,7 @@
 ### 1. [Factory Pattern](src/main/java/io/at/learn/lld03/FactoryPattern.md)
 ### 2. [Builder Pattern](src/main/java/io/at/learn/lld03/Builder.md)
 ### 3. [Prototype Pattern](src/main/java/io/at/learn/lld03/Prototype.md)
+### 4. [Singleton Pattern](src/main/java/io/at/learn/lld03/Singleton.md)
 
 ## 04. Structural Design Pattern
 

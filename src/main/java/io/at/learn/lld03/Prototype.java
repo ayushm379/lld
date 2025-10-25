@@ -78,7 +78,6 @@ interface Document extends Cloneable {
 }
 
 @Data
-@AllArgsConstructor
 class Report implements Document {
 
     private String content = "DEFAULT CONTENT";
@@ -108,7 +107,6 @@ class Report implements Document {
 }
 
 @Data
-@AllArgsConstructor
 class Invoice implements Document {
 
     private String content = "DEFAULT CONTENT";
