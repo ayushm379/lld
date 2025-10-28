@@ -11,6 +11,7 @@
 ### 4. [Singleton Pattern](src/main/java/io/at/learn/lld03/Singleton.md)
 
 ## 04. Structural Design Pattern
+### 1. [Adapter Pattern](src/main/java/io/at/learn/lld04/Adapter.md)
 
 ## 05. Behavioural Design Pattern
 
