@@ -1,56 +1,92 @@
 package io.at.learn.lld04;
 
-import java.util.Random;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 public class Adapter {
 
     public static void main(String[] args) {
-        LegacyPaymentProcessorAdapter adapter = new LegacyPaymentProcessorAdapter(new LegacyPaymentSystem());
-        CheckoutService checkoutService = new CheckoutService(adapter);
-        checkoutService.checkout("Customer 1", 54);
+        MediaPlayer mediaPlayer = new AdvancedMediaPlayer();
+        mediaPlayer.play(MediaFileType.MP4, "video.mp4");
+        mediaPlayer.play(MediaFileType.MP3, "music.mp3");
+        mediaPlayer.play(MediaFileType.HLF, "iphoneVideo.hlf");
     }
 
 }
 
-class CheckoutService {
-    private final PaymentProcessor paymentProcessor;
-    public CheckoutService(PaymentProcessor paymentProcessor) {
-        this.paymentProcessor = paymentProcessor;
-    }
-    public void checkout(String customerId, double total) {
-        System.out.printf("Checkout initiated for %s | Total: $%s%n", customerId, total);
-        paymentProcessor.processPayment(customerId, total);
-        System.out.println("Payment successful!");
-    }
+enum MediaFileType {
+    MP4, MP3, HLF;
 }
 
-interface PaymentProcessor {
-    void processPayment(String customerId, double amountInDollars);
+@Getter
+@AllArgsConstructor
+enum ErrorMessages {
+    MEDIA_TYPE_NOT_SUPPORTED("Media Type Not Supported");
+
+    private final String error;
+
 }
 
-class LegacyPaymentSystem {
-    public void makePayment(String transactionId, String accountNumber, double amountInCents) {
-        System.out.printf("%s : %s -> %.2f cents \n", transactionId, accountNumber, amountInCents);
-    }
+interface MediaPlayer {
+    void play(MediaFileType audioType, String filePath);
 }
 
-class LegacyPaymentProcessorAdapter implements PaymentProcessor {
+class LegacyPlayer {
 
-    private final LegacyPaymentSystem legacyPaymentSystem;
-
-    public LegacyPaymentProcessorAdapter(LegacyPaymentSystem legacyPaymentSystem) {
-        this.legacyPaymentSystem = legacyPaymentSystem;
+    public void playMp4(String filePath) {
+        System.out.printf("Playing MP4 %s \n", filePath);
     }
 
-    private double convertDollarsToCents(double amountInDollars) {
-        return amountInDollars * 100;
+    public void playHlf(String filePath) {
+        System.out.printf("Playing HLF %s \n", filePath);
+    }
+
+}
+
+class LegacyAdapter implements MediaPlayer {
+    
+    private final LegacyPlayer legacyPlayer;
+    
+    public LegacyAdapter() {
+        this.legacyPlayer = new LegacyPlayer();
     }
 
     @Override
-    public void processPayment(String customerId, double amountInDollars) {
-        double amountInCents = convertDollarsToCents(amountInDollars);
-        String transactionId = "TSX" + (new Random()).nextInt();
-        legacyPaymentSystem.makePayment(transactionId, customerId, amountInCents);
+    public void play(MediaFileType audioType, String filePath) {
+        if(MediaFileType.MP4 == audioType) {
+           legacyPlayer.playMp4(filePath);
+        } else {
+            legacyPlayer.playHlf(filePath);
+        }
+    }
+}
+
+class Mp3MediaPlayer implements MediaPlayer {
+
+    @Override
+    public void play(MediaFileType audioType, String filePath) {
+        System.out.printf("Playing MP3 %s \n", filePath);
+    }
+}
+
+class AdvancedMediaPlayer implements MediaPlayer {
+
+    private final MediaPlayer mp3MediaPlayer;
+    private final MediaPlayer legacyAdapter;
+
+    public AdvancedMediaPlayer() {
+        this.mp3MediaPlayer = new Mp3MediaPlayer();
+        this.legacyAdapter = new LegacyAdapter();
+    }
+
+    @Override
+    public void play(MediaFileType audioType, String filePath) {
+        switch (audioType) {
+            case MP3 -> mp3MediaPlayer.play(audioType, filePath);
+            case MP4, HLF -> legacyAdapter.play(audioType, filePath);
+            default -> throw new RuntimeException(ErrorMessages.MEDIA_TYPE_NOT_SUPPORTED.getError());
+        }
     }
 
 }
