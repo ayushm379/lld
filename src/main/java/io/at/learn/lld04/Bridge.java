@@ -88,23 +88,12 @@ class Radio implements Device {
 
 @AllArgsConstructor
 abstract class RemoteController {
-    private Device device; // this is bridge
+    // This is the bridge
+    private Device device;
 
-    public void volumeUp() {
-        int newVolume = device.getVolume() + 5;
-        int volume = Math.min(100, newVolume);
-        device.setVolume(volume);
-    }
-
-    public void volumeDown() {
-        int newVolume = device.getVolume() - 5;
-        int volume = Math.max(0, newVolume);
-        device.setVolume(volume);
-    }
-
-    public void channelDown() {
-        device.setChannel(device.getChannel() - 1);
-    }
+    public void volumeUp() { device.setVolume(Math.min(100, device.getVolume() + 5)); }
+    public void volumeDown() { device.setVolume(Math.max(0, device.getVolume() - 5)); }
+    public void channelDown() { device.setChannel(device.getChannel() - 1); }
     public void channelUp() {
         device.setChannel(device.getChannel() + 1);
     }

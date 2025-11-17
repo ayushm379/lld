@@ -70,6 +70,7 @@ class Mp3MediaPlayer implements MediaPlayer {
     }
 }
 
+// This below is the most important part of Adapter Design Pattern
 class AdvancedMediaPlayer implements MediaPlayer {
 
     private final MediaPlayer mp3MediaPlayer;
